@@ -3,5 +3,10 @@ Template.players.helpers({
     var id = Session.get('playerId');
     var me = id && Players.findOne(id);
     return me && me.name;
+  },
+
+  players: function () {
+    return Players.find();
   }
+
 });

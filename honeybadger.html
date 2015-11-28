@@ -4,16 +4,37 @@
 
 <body>
   {{> players}}
-
-  {{> hello}}
-
+  {{> canvas}}
+  {{> newPlayer}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="canvas">
+  <canvas id="game-canvas">
+    Your browser is too old! You need a newer one with &lt;canvas&gt; support.
+  </canvas>
+</template>
+
+<template name="newPlayer">
+  {{#if showOverlay}}
+    <div id="new-player">
+      <div class="overlay">
+      </div>
+      <div class="popup">
+        <form action="">
+          <label for="player-name">Player name</label>
+          <input type="text" id="player-name" placeholder="E.g. Honey,Badger"/>
+          <button>Enter the game!</button>
+        </form>
+      </div>
+    </div>
+  {{/if}}
 </template>
 
 <template name="players">
   <h1>Welcome {{yourName}}!</h1>
+  <ul>
+    {{#each players}}
+      <li>{{name}}</li>
+    {{/each}}
+  </ul>
 </template>
