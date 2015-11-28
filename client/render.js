@@ -1,13 +1,13 @@
 function drawBadger(ctx, badger) {
   var img = new Image();
   if(badger.x > Configuration.board.height / 2) {
-    if (badger.y < 150) {
+    if (badger.y < 200) {
       img.src = "badger_parachute.png"
     } else {
       img.src = "badger2.png";
     }
   } else {
-    if (badger.y < 150) {
+    if (badger.y < 200) {
       img.src = "badger_filipped_parachute2.png"
     } else {
       img.src = "badger_flipped2.png";
