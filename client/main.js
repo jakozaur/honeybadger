@@ -21,6 +21,7 @@ Meteor.startup(function main() {
 
     var updateObject = {$set: {age: Date.now()}, $inc: {}};
     if (badger) {
+      RenderBloodSince = Date.now();
       updateObject['$inc']['lifePoints'] = -10;
     }
     if (me && me.lifePoints > 0) {
