@@ -26,7 +26,7 @@ Template.canvas.events({
 
 function getCursorPosition(canvas, event) {
     var rect = canvas.getBoundingClientRect();
-    var x = event.clientX - rect.left;
-    var y = event.clientY - rect.top;
+    var x = Math.round((event.clientX - rect.left) / (rect.right - rect.left)* canvas.width);
+    var y = Math.round((event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
     return {"x":  x, "y": y};
 };
