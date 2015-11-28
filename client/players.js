@@ -22,13 +22,3 @@ Template.players.helpers({
   }
 
 });
-
-Template.players.events({
-  'click #respawn': function () {
-    var id = Session.get('playerId');
-    Players.update(id, {$set: {
-      aliveAge: 0,
-      lifePoints: 100}
-    });
-  }
-});

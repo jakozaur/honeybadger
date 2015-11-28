@@ -8,5 +8,10 @@ CurrentPlayer = {
   isUnderAttack: function() {
     var me = CurrentPlayer.get();
     return me && me.badger == "attack";
+  },
+
+  isDead: function() {
+    var me = CurrentPlayer.get();
+    return !me || me.lifePoints <= 0;
   }
 }
