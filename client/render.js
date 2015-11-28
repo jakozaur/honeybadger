@@ -24,11 +24,11 @@ function drawBoard () {
 
     
     var img = new Image();
-    img.src = "badger.jpg";
+    img.src = "badger.png";
 
     // img.onload = function() {
     //   console.log('asdf!')
-      ctx.drawImage(img, 10, 10)      
+      ctx.drawImage(img, badger.x, badger.y)      
     // };
 
     // ctx.beginPath();
