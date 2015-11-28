@@ -4,6 +4,16 @@ function drawBadger(ctx, badger) {
   ctx.drawImage(img, badger.x, badger.y)
 }
 
+function drawLifeBar(ctx) {
+  var margin = 2;
+  var height = 20;
+  var width = CurrentPlayer.get().lifePoints * (Configuration.board.width - 2 * margin) / 100;
+  var x = margin;
+  var y = Configuration.board.height - margin - height;
+  ctx.fillStyle = "green";
+  ctx.fillRect(x, y, width, height);
+}
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
@@ -29,6 +39,8 @@ function drawBoard () {
       drawBadger(ctx, badger);
     }
   });
+
+  drawLifeBar(ctx);
 
   // writing docs
   ctx.textAlign = 'center';
