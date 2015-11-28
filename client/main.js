@@ -5,7 +5,7 @@ Meteor.startup(function main() {
     id = Players.insert({
       name: name,
       age: Date.now(),
-      aliveSince: Date.now(),
+      aliveAge: 0,
       lifePoints: 100
     });
     Session.set('playerId', id);
@@ -19,15 +19,16 @@ Meteor.startup(function main() {
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
 
-    if (badger) {
-      Players.update(id, {$set: {age: Date.now()}, $inc: {lifePoints: -10}});
-    } else {
-      Players.update(id, {$set: {age: Date.now()}});
-    }
+    var isAlive = me.lifePoints > 0;
 
-    if (me && (me.lifePoints <= 0 && !me.deadSince)) {
-      Players.update(id, {$set: {deadSince: Date.now()}});
+    var updateObject = {$set: {age: Date.now()}, $inc: {}};
+    if (badger) {
+      updateObject['$inc']['lifePoints'] = -10;
     }
+    if (me.lifePoints > 0) {
+      updateObject['$inc']['aliveAge'] = 1;
+    }
+    Players.update(id, updateObject);
 
   }, 1000);
 });

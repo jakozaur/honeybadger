@@ -31,10 +31,8 @@ Template.players.events({
   'click #respawn': function () {
     var id = Session.get('playerId');
     Players.update(id, {$set: {
-      aliveSince: Date.now(),
-      lifePoints: 100}, $unset: {
-        deadSince: ""
-      }
+      aliveAge: 0,
+      lifePoints: 100}
     });
   }
 });
