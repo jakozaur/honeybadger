@@ -42,7 +42,6 @@ function drawBoard () {
   var canvas = document.getElementById('game-canvas');
 
   if (!canvas) {
-    alert("Unable to find canvas!")
     return; // <canvas> doesn't exist yet, don't do anything
   }
 
@@ -56,13 +55,13 @@ function drawBoard () {
 
   if (CurrentPlayer.isUnderAttack()) {
     if (HoneyBadgers.length == 0) {
-      var x = Math.round(Math.random()) * (Configuration.board.width - 200);
-      var y = Math.random() * (Configuration.board.height - 150);
+      var x = Math.round(Math.random()) * (Configuration.board.width - Configuration.honeybadger.width);
+      var y = Math.random() * (Configuration.board.height - Configuration.honeybadger.height);
       HoneyBadgers = [{x: x, y: y}];
     } else {
       var dest = {
-        x: (Configuration.board.width - 200) / 2,
-        y: Configuration.board.height - 150
+        x: (Configuration.board.width - Configuration.honeybadger.width) / 2,
+        y: Configuration.board.height - Configuration.honeybadger.height
       };
 
       _.each(HoneyBadgers, function (badger) {
