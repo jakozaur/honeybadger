@@ -109,6 +109,7 @@ function drawLifeBarForCurrentPlayer(ctx) {
 }
 
 HoneyBadgers = [];
+RenderBloodSince = 0;
 
 var lastDrawMs = Date.now();
 
@@ -166,15 +167,20 @@ function drawBoard () {
     HoneyBadgers = [];
   }
 
+  var bloodMs = Date.now() - RenderBloodSince;
+  if (bloodMs < Configuration.renderBloodForMs) {
+    ctx.save();
+    ctx.globalAlpha = 1.0 - bloodMs / Configuration.renderBloodForMs;
+    ctx.fillStyle = "#FF0000"
+    ctx.fillRect(0, 0, Configuration.board.width, Configuration.board.height);
+    ctx.restore();
+    console.log("Blood!")
+  }
+
   // draw initial dots
   _.each(HoneyBadgers, function (badger) {
     drawBadger(ctx, badger);
   });
-
-  var underAttack = CurrentPlayer.isUnderAttack()
-  // if (underAttack) {
-  //   drawAttackWarning(ctx)
-  // }
 
   if (CurrentPlayer.isDead()) {
     ctx.font = "50px bold arial";
