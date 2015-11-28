@@ -96,11 +96,11 @@ function drawBoard () {
   });
 
   if (CurrentPlayer.isDead()) {
-    ctx.font = "48px serif";
-    ctx.fillStyle = "red";
+    ctx.font = "50px bold arial";
+    ctx.fillStyle = "black";
     ctx.fillText("All your base are belong to us!",
     Configuration.board.width / 2,
-    Configuration.board.height / 2);
+    Configuration.board.height / 4);
   } else {
     drawLifeBarForCurrentPlayer(ctx);
   }
