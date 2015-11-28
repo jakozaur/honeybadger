@@ -18,6 +18,19 @@ function drawLifeBar(ctx, player, x, y, width, height) {
   }
 }
 
+function drawMe(ctx) {
+  var player = CurrentPlayer.get();
+  if (player) {
+    var path = "players/" + player.name;
+    var img = new Image();
+    img.src = path;
+    ctx.drawImage(
+      img,
+      Configuration.board.width / 2 - 50,
+      Configuration.board.height - 120);
+  }
+}
+
 function drawLifeBarForCurrentPlayer(ctx) {
   var player = CurrentPlayer.get();
   var margin = 5;
@@ -103,6 +116,8 @@ function drawBoard () {
   } else {
     drawLifeBarForCurrentPlayer(ctx);
   }
+
+  drawMe(ctx);
 
   // writing docs
   ctx.textAlign = 'center';
