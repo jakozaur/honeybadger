@@ -1,4 +1,5 @@
 function drawBoard () {
+
   window.requestAnimationFrame(drawBoard);
 
   var canvas = document.getElementById('game-canvas');
@@ -16,18 +17,10 @@ function drawBoard () {
     return; // browser doesn't support drawing
   }
 
-  // var game = Game.findOne(GameId);
-
-  // if (!game) {
-  //   return; // server has not create game yet
-  // }
-
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
-
-
   // draw initial dots
-  _.each(game.honeybadgers, function (badger) {
+  _.each(Badger.honeybadgers, function (badger) {
     ctx.fillStyle = Configuration.honeybadger.color;
     ctx.beginPath();
     ctx.arc(badger.x, badger.y, Configuration.honeybadger.radius, 0, Math.PI*2, false);
@@ -41,18 +34,18 @@ function drawBoard () {
   ctx.font = '300 10px serif';
 
   // draw player
-  _.each(_.pairs(game.player), function (pair) {
-    var id = pair[0];
-    var el = pair[1];
-    ctx.fillStyle = Configuration.player.colors[el.color];
-    ctx.beginPath();
-    var radius = Configuration.player.foodSizeToRadius(el.size);
-    ctx.arc(el.x, el.y, radius, 0, Math.PI*2, false);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillText(el.name, el.x, el.y);
-  });
+  // _.each(_.pairs(Player), function (pair) {
+  //   var id = pair[0];
+  //   var el = pair[1];
+  //   ctx.fillStyle = Configuration.player.colors[el.color];
+  //   ctx.beginPath();
+  //   var radius = Configuration.player.foodSizeToRadius(el.size);
+  //   ctx.arc(el.x, el.y, radius, 0, Math.PI*2, false);
+  //   ctx.closePath();
+  //   ctx.fill();
+  //   ctx.fillStyle = 'rgb(0, 0, 0)';
+  //   ctx.fillText(el.name, el.x, el.y);
+  // });
 };
 
 Template.canvas.onRendered(function () {
