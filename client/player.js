@@ -1,4 +1,11 @@
 Template.player.helpers({
+  aliveText: function () {
+    if (this.lifePoints > 0) {
+      return "Alive " + this.lifePoints + "/100"
+    } else {
+      return "Dead"
+    }
+  },
   howLongAlive: function () {
     var aliveAge = this.aliveAge;
     var seconds = aliveAge % 60;
