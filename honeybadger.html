@@ -31,14 +31,12 @@
 </template>
 
 <template name="players">
-  <h1>Welcome {{yourName}}!</h1>
   <ul>
     {{#each activePlayers}}
       {{> player}}
     {{/each}}
   </ul>
   {{#if youreDead}}
-    All your base are belong to us!
   {{else}}
     {{#if areYouUnderAttack}}
       <h2>Honey Badger is attacking you!</h2>

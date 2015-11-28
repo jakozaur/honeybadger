@@ -82,7 +82,15 @@ function drawBoard () {
     drawBadger(ctx, badger);
   });
 
-  drawLifeBarForCurrentPlayer(ctx);
+  if (CurrentPlayer.isDead()) {
+    ctx.font = "48px serif";
+    ctx.fillStyle = "red";
+    ctx.fillText("All your base are belong to us!",
+    Configuration.board.width / 2,
+    Configuration.board.height / 2);
+  } else {
+    drawLifeBarForCurrentPlayer(ctx);
+  }
 
   // writing docs
   ctx.textAlign = 'center';
