@@ -1,11 +1,7 @@
 Template.canvas.events({
   "click #game-canvas": function(event) {
     if (CurrentPlayer.isDead()) {
-      var id = Session.get('playerId');
-      Players.update(id, {$set: {
-        aliveAge: 0,
-        lifePoints: 100}
-      });
+      CurrentPlayer.create();      
     } else {
       var id = Session.get('playerId');
       console.log(event);

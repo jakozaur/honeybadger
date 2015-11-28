@@ -6,6 +6,7 @@
 
 <body>
   {{> canvas}}
+  {{> players}}
 </body>
 
 <template name="canvas">
@@ -31,17 +32,15 @@
 </template>
 
 <template name="players">
-  <ul>
-    {{#each activePlayers}}
-      {{> player}}
-    {{/each}}
-  </ul>
+  {{#if areYouUnderAttack}}
+    <audio autoplay="true" loop="true">
+      <source src="attack-sound.mp3" />
+    </audio>
+  {{/if}}
 </template>
 
 <template name="player">
-  <li>{{aliveText}} {{name}} {{howLongAlive}}
-    {{#if badger}}
-      is under attack!
-    {{/if}}
-  </li>
+  {{#if badger}}
+    is under attack!
+  {{/if}}
 </template>
