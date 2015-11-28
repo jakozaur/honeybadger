@@ -25,13 +25,9 @@ Meteor.startup(function main() {
 
   Meteor.setInterval(function badgerAttacks () {
     var query = {badger: "attack"};
-    if (Players.find(query).count() == 0) {
+    var player = Players.findOne(query);
+    if (!player || player.lifePoints <= 0) {
       HoneyBadger.attack();
-    } else {
-      var player = Players.findOne(query);
-      if (player.lifePoints <= 0) {
-        HoneyBadger.attack();
-      }
     }
   }, 500);
 });
