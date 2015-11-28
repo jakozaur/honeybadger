@@ -1,10 +1,14 @@
+function drawBadger(ctx) {
+  var img = new Image();
+  img.src = "badger.jpg";
+  ctx.drawImage(img, 10, 10)
+}
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
 
   var canvas = document.getElementById('game-canvas');
-
-  console.log("Drawing now...")
 
   if (!canvas) {
     alert("Unable to find canvas!")
@@ -19,23 +23,9 @@ function drawBoard () {
 
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
-  // draw initial dots
-  _.each(Badger.honeybadgers, function (badger) {
-
-    
-    var img = new Image();
-    img.src = "badger.jpg";
-
-    // img.onload = function() {
-    //   console.log('asdf!')
-      ctx.drawImage(img, 10, 10)      
-    // };
-
-    // ctx.beginPath();
-    // ctx.arc(badger.x, badger.y, Configuration.honeybadger.radius, 0, Math.PI*2, false);
-    // ctx.closePath();
-    // ctx.fill();
-  });
+  if (CurrentPlayer.isUnderAttack()) {
+    drawBadger(ctx);
+  }
 
   // writing docs
   ctx.textAlign = 'center';
