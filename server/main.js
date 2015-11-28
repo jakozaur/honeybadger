@@ -10,7 +10,7 @@ Meteor.startup(function main() {
       if (!recentlySeen[player._id])
         return false;
 
-      return recentlySeen[player._id] > player.age + 5000;
+      return recentlySeen[player._id] > player.age + 3000;
     }
 
     activePlayers.forEach(function(player) {
@@ -18,7 +18,7 @@ Meteor.startup(function main() {
         console.log('removing player ' + player._id);
         Players.remove(player._id);
       } else {
-        recentlySeen[player._id] = Math.max(player.age, (recentlySeen[player._id] || 0) + 500);
+        recentlySeen[player._id] = Math.max(player.age, (recentlySeen[player._id] || 0) + 950);
       }
     });
   }, 1000);
