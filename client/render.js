@@ -63,18 +63,35 @@ function drawPlayersBoard(ctx) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
   ctx.lineWidth="4";
   ctx.strokeStyle="green";
-  ctx.fillRect(20, 20, 300, 200)
+  ctx.fillRect(20, 20, 200, 200)
   ctx.stroke()
 
+  ctx.fillStyle = 'rgb(0, 0, 0)'
+  ctx.font = 'bold 25px sans-serif';
+  ctx.fillText("PLAYERS", 120, 20)
+
+  ctx.font = 'bold 15px sans-serif';
   _.each(Players.find().fetch(), function(player, id) {
-    var msg = player.name + " " + aliveText(player) + " " + howLongAlive(player)
-    var xOffset = 110
+    var img = new Image()
+    img.src = 'players/' + player.name;
+    ctx.drawImage(img, 40, (id + 1) * 40, 40, 40)
+    drawLifeBar(ctx, player, 90, (id + 1) * 40, 60, 20)
+    ctx.fillStyle = 'rgb(0, 0, 0)'
+    ctx.fillText(howLongAlive(player), 120, (id + 1) * 40 + 30)
     if(player.badger) {
-      msg += " ATTACKED!";
-      xOffset += 45
+      var headImg = new Image()
+      headImg.src = "badger_head.png"
+      ctx.drawImage(headImg, 160, (id + 1) * 40, 40, 40)
     }
-    ctx.fillStyle = 'rgb(255, 255, 255)'
-    ctx.fillText(msg, xOffset, (id + 1) * 30)
+
+    // var msg = player.name + " " + aliveText(player) + " " + howLongAlive(player)
+    // var xOffset = 110
+    // 
+    //   msg += " ATTACKED!";
+    //   xOffset += 45
+    // }
+    // ctx.fillStyle = 'rgb(255, 255, 255)'
+    // ctx.fillText(msg, xOffset, (id + 1) * 30)
   })
 }
 
