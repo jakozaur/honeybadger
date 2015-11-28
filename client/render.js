@@ -137,8 +137,8 @@ function drawBoard () {
       HoneyBadgers = [{x: x, y: y}];
     } else {
       var dest = {
-        x: (Configuration.board.width - Configuration.honeybadger.width) / 2,
-        y: Configuration.board.height - Configuration.honeybadger.height
+        x: (Configuration.board.width - Configuration.honeybadger.width) / 2 + 100,
+        y: Configuration.board.height - Configuration.honeybadger.height - 50
       };
 
       _.each(HoneyBadgers, function (badger) {
@@ -172,9 +172,9 @@ function drawBoard () {
   });
 
   var underAttack = CurrentPlayer.isUnderAttack()
-  if (underAttack) {
-    drawAttackWarning(ctx)
-  }
+  // if (underAttack) {
+  //   drawAttackWarning(ctx)
+  // }
 
   if (CurrentPlayer.isDead()) {
     ctx.font = "50px bold arial";
