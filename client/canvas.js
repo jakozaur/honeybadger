@@ -18,6 +18,7 @@ Template.canvas.events({
            if ((cursorPos.x > badger.x && cursorPos.x < badger.x + Configuration.honeybadger.width) &&
                    (cursorPos.y > badger.y && cursorPos.y < badger.y + Configuration.honeybadger.height)) {
                            console.log("Badger defeated!");
+                           Players.update(id, {$unset: {badger: "", taking_damage: ""}});
                    } //TODO: delete just the right badger, not all of them
         });
     }
