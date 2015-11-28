@@ -33,6 +33,8 @@ function drawLifeBarForCurrentPlayer(ctx) {
 
 var HoneyBadgers = [];
 
+var lastDrawMs = Date.now();
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
@@ -69,8 +71,19 @@ function drawBoard () {
           y: dest.y - badger.y
         };
         var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
-        badger.x += diff.x / distance;
-        badger.y += diff.y / distance;
+        var timeElapsed = Date.now() - lastDrawMs;
+        var speed = Configuration.honeybadger.speed * timeElapsed;
+        //console.log("x = " + badger.x + " y = " + badger.y + " speed = " + speed + " distance = " + distance);
+
+        if (distance < speed) {
+          badger.x += diff.x;
+          badger.y += diff.y;
+        } else {
+          var moveBy = Math.min(speed, distance);
+          badger.x += diff.x / distance * moveBy;
+          badger.y += diff.y / distance * moveBy;
+        }
+
       });
     }
   } else {
@@ -102,6 +115,8 @@ function drawBoard () {
   //   ctx.fillStyle = 'rgb(0, 0, 0)';
   //   ctx.fillText(el.name, el.x, el.y);
   // });
+
+  lastDrawMs = Date.now();
 };
 
 Template.canvas.onRendered(function () {
