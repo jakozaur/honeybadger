@@ -33,8 +33,8 @@
 <template name="players">
   <h1>Welcome {{yourName}}!</h1>
   <ul>
-    {{#each players}}
-      <li>{{name}}
+    {{#each activePlayers}}
+      <li>{{lifePoints}}/100 {{name}}
         {{#if badger}}
           is under attack!
         {{/if}}

@@ -11,7 +11,7 @@ Template.players.helpers({
     return me && me.badger;
   },
 
-  players: function () {
+  activePlayers: function () {
     return Players.find();
   }
 
