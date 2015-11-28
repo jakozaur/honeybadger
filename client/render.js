@@ -19,15 +19,22 @@ function drawBoard () {
 
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
-  console.log(Badger)
-  console.log(Badger.honeybadgers)
   // draw initial dots
   _.each(Badger.honeybadgers, function (badger) {
-    ctx.fillStyle = Configuration.honeybadger.color;
-    ctx.beginPath();
-    ctx.arc(badger.x, badger.y, Configuration.honeybadger.radius, 0, Math.PI*2, false);
-    ctx.closePath();
-    ctx.fill();
+
+    
+    var img = new Image();
+    img.src = "badger.jpg";
+
+    // img.onload = function() {
+    //   console.log('asdf!')
+      ctx.drawImage(img, 10, 10)      
+    // };
+
+    // ctx.beginPath();
+    // ctx.arc(badger.x, badger.y, Configuration.honeybadger.radius, 0, Math.PI*2, false);
+    // ctx.closePath();
+    // ctx.fill();
   });
 
   // writing docs
