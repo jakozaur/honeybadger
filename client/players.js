@@ -11,8 +11,15 @@ Template.players.helpers({
     return me && me.badger;
   },
 
-  players: function () {
+  activePlayers: function () {
     return Players.find();
   }
 
+});
+
+Template.players.events({
+  'click #fuck-you': function() {
+    var id = Session.get('playerId');
+    Players.update(id, {$unset: {badger: ""}});
+  }
 });
