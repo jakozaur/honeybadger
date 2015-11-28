@@ -196,9 +196,12 @@ function drawBoard () {
   if (CurrentPlayer.isDead()) {
     ctx.font = "50px bold arial";
     ctx.fillStyle = "black";
-    ctx.fillText("All your base are belong to us!",
-    Configuration.board.width / 2,
-    Configuration.board.height / 4);
+    ctx.fillText("All your base are belong to us!\n ",
+      Configuration.board.width / 2,
+      Configuration.board.height / 4);
+    ctx.fillText("Click on animal to play again.",
+      Configuration.board.width / 2,
+      Configuration.board.height / 4 + 50);
   } else {
     drawLifeBarForCurrentPlayer(ctx);
   }
