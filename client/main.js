@@ -1,15 +1,5 @@
 Meteor.startup(function main() {
-  var id = Session.get('playerId');
-  if (!id) {
-    var name = "" + (Math.floor(Math.random() * 6) + 1) + ".png";
-    id = Players.insert({
-      name: name,
-      age: Date.now(),
-      aliveAge: 0,
-      lifePoints: 100
-    });
-    Session.set('playerId', id);
-  }
+  CurrentPlayer.create();
 
   console.log(name);
 

@@ -31,12 +31,6 @@ function drawMe(ctx) {
   }
 }
 
-function drawAttackWarning(ctx) {
-  ctx.fillStyle = 'rgb(0, 0, 0)';
-  ctx.font = 'bold 35px sans-serif';
-  ctx.fillText("ATTACKED!", Configuration.board.width / 2,  100)
-}
-
 function aliveText(player) {
   if (player.lifePoints > 0) {
     return "Alive " + player.lifePoints + "/100"
