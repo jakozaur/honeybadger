@@ -19,6 +19,8 @@ function drawBoard () {
 
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
+  console.log(Badger)
+  console.log(Badger.honeybadgers)
   // draw initial dots
   _.each(Badger.honeybadgers, function (badger) {
     ctx.fillStyle = Configuration.honeybadger.color;
