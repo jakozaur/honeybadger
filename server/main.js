@@ -22,4 +22,22 @@ Meteor.startup(function main() {
       }
     });
   }, 1000);
+
+  Meteor.setInterval(function badgerAttacks () {
+    var players = Players.find().fetch();
+
+    // Remove previous badger
+    _.forEach(players, function (player) {
+      if (player.badger) {
+        Players.update(player._id, {$unset: {badger: ""}});
+      }
+    });
+
+    // Add new player under attack
+    var badgerId = Math.floor(Math.random() * players.length);
+    var playerUnderAttack = players[badgerId];
+    console.log("player " + playerUnderAttack.name + " is under attack id " +
+      playerUnderAttack._id + " badgerId " + badgerId );
+    Players.update(playerUnderAttack._id, {$set: {badger: "attack"}});
+  }, 5000);
 });

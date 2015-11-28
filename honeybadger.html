@@ -34,7 +34,15 @@
   <h1>Welcome {{yourName}}!</h1>
   <ul>
     {{#each players}}
-      <li>{{name}}</li>
+      <li>{{name}}
+        {{#if badger}}
+          is under attack!
+        {{/if}}
+      </li>
+
     {{/each}}
   </ul>
+  {{#if areYouUnderAttack}}
+    <h2>Honey Badger is attacking you!</h2>
+  {{/if}}
 </template>
