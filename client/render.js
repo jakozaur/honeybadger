@@ -1,7 +1,11 @@
 function drawBadger(ctx, badger) {
   var img = new Image();
-  img.src = "badger.png";
-  ctx.drawImage(img, badger.x, badger.y)
+  if(badger.x > Configuration.board.height / 2) {
+  	img.src = "badger.png";
+  }else{
+  	img.src = "badger_flipped.png";
+  }
+  ctx.drawImage(img, badger.x, badger.y);
 }
 
 function drawLifeBar(ctx) {
@@ -39,7 +43,7 @@ function drawBoard () {
 
   if (CurrentPlayer.isUnderAttack()) {
     if (HoneyBadgers.length == 0) {
-      var x = Math.random() * (Configuration.board.width - 200);
+      var x = Math.round(Math.random()) * (Configuration.board.width - 200);
       var y = Math.random() * (Configuration.board.height - 150);
       HoneyBadgers = [{x: x, y: y}];
     } else {
