@@ -16,6 +16,8 @@ function drawLifeBar(ctx) {
   ctx.fillRect(x, y, width, height);
 }
 
+var HoneyBadgers = [];
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
@@ -35,11 +37,35 @@ function drawBoard () {
 
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
-  // draw initial dots
-  _.each(Badger.honeybadgers, function (badger) {
-    if (CurrentPlayer.isUnderAttack()) {
-      drawBadger(ctx, badger);
+  if (CurrentPlayer.isUnderAttack()) {
+    if (HoneyBadgers.length == 0) {
+      var x = Math.random() * (Configuration.board.width - 200);
+      var y = Math.random() * (Configuration.board.height - 150);
+      HoneyBadgers = [{x: x, y: y}];
+    } else {
+      var dest = {
+        x: (Configuration.board.width - 200) / 2,
+        y: Configuration.board.height - 150
+      };
+
+      _.each(HoneyBadgers, function (badger) {
+        var diff = {
+          x: dest.x - badger.x,
+          y: dest.y - badger.y
+        };
+        var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
+        console.log("badger " + badger)
+        badger.x += diff.x / distance;
+        badger.y += diff.y / distance;
+      });
     }
+  } else {
+    HoneyBadgers = [];
+  }
+
+  // draw initial dots
+  _.each(HoneyBadgers, function (badger) {
+    drawBadger(ctx, badger);
   });
 
   drawLifeBar(ctx);
