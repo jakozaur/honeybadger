@@ -7,10 +7,7 @@ Template.canvas.events({
       if (cursorPos.y > Configuration.board.height - 100 &&
         cursorPos.x > Configuration.board.width / 2 - 50 &&
         cursorPos.x < Configuration.board.width / 2 + 50) {
-        Players.update(id, {$set: {
-          aliveAge: 0,
-          lifePoints: 100}
-        });
+        CurrentPlayer.create();
       }
     } else {
       var id = Session.get('playerId');

@@ -1,15 +1,5 @@
 Meteor.startup(function main() {
-  var id = Session.get('playerId');
-  if (!id) {
-    var name = "" + (Math.floor(Math.random() * 6) + 1) + ".png";
-    id = Players.insert({
-      name: name,
-      age: Date.now(),
-      aliveAge: 0,
-      lifePoints: 100
-    });
-    Session.set('playerId', id);
-  }
+  CurrentPlayer.create();
 
   console.log(name);
 
@@ -18,11 +8,12 @@ Meteor.startup(function main() {
     var id = Session.get('playerId');
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
-
+	var taking_damage = me && me.taking_damage;
+	
     var updateObject = {$set: {age: Date.now()}, $inc: {}};
-    if (badger) {
-      RenderBloodSince = Date.now();
-      updateObject['$inc']['lifePoints'] = -10;
+    if (badger && taking_damage) {
+		RenderBloodSince = Date.now();
+      	updateObject['$inc']['lifePoints'] = -10;
     }
     if (me && me.lifePoints > 0) {
       updateObject['$inc']['aliveAge'] = 1;
