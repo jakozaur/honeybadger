@@ -24,8 +24,14 @@ Meteor.startup(function main() {
   }, 1000);
 
   Meteor.setInterval(function badgerAttacks () {
-    if (Players.find({badger: "attack"}).count() == 0) {
-    HoneyBadger.attack();
+    var query = {badger: "attack"};
+    if (Players.find(query).count() == 0) {
+      HoneyBadger.attack();
+    } else {
+      var player = Players.findOne(query);
+      if (player.lifePoints <= 0) {
+        HoneyBadger.attack();
+      }
     }
   }, 500);
 });
