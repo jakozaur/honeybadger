@@ -10,7 +10,7 @@ Meteor.startup(function main() {
       if (!recentlySeen[player._id])
         return false;
 
-      return recentlySeen[player._id] > player.age + 5000;
+      return recentlySeen[player._id] > player.age + 3000;
     }
 
     activePlayers.forEach(function(player) {
@@ -18,31 +18,20 @@ Meteor.startup(function main() {
         console.log('removing player ' + player._id);
         Players.remove(player._id);
       } else {
-        recentlySeen[player._id] = Math.max(player.age, (recentlySeen[player._id] || 0) + 500);
+        recentlySeen[player._id] = Math.max(player.age, (recentlySeen[player._id] || 0) + 950);
       }
     });
   }, 1000);
 
   Meteor.setInterval(function badgerAttacks () {
-    var players = Players.find().fetch();
-
-    // Remove previous badger
-    _.forEach(players, function (player) {
-      if (player.badger) {
-        Players.update(player._id, {$unset: {badger: ""}});
+    var query = {badger: "attack"};
+    if (Players.find(query).count() == 0) {
+      HoneyBadger.attack();
+    } else {
+      var player = Players.findOne(query);
+      if (player.lifePoints <= 0) {
+        HoneyBadger.attack();
       }
-    });
-
-    // Add new player under attack
-    var alivePlayers = _.filter(players, function (player) {
-      return player.lifePoints > 0;
-    });
-    if (alivePlayers.length > 0) {
-      var badgerId = Math.floor(Math.random() * alivePlayers.length);
-      var playerUnderAttack = alivePlayers[badgerId];
-      console.log("player " + playerUnderAttack.name + " is under attack id " +
-        playerUnderAttack._id + " badgerId " + badgerId );
-      Players.update(playerUnderAttack._id, {$set: {badger: "attack"}});
     }
-  }, 5000);
+  }, 500);
 });
