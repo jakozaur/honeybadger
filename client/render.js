@@ -1,7 +1,21 @@
 function drawBadger(ctx, badger) {
   var img = new Image();
-  img.src = "badger.png";
-  ctx.drawImage(img, badger.x, badger.y)
+  if(badger.x > Configuration.board.height / 2) {
+  	img.src = "badger.png";
+  }else{
+  	img.src = "badger_flipped.png";
+  }
+  ctx.drawImage(img, badger.x, badger.y);
+}
+
+function drawLifeBar(ctx, player, x, y, width, height) {
+  if (player) {
+    var leftWidth = player.lifePoints * width / 100;
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, width, height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(x, y, leftWidth, height);
+  }
 }
 
 function drawAttackWarning(ctx) {
@@ -51,6 +65,23 @@ function drawPlayersBoard(ctx) {
   })
 }
 
+function drawLifeBarForCurrentPlayer(ctx) {
+  var player = CurrentPlayer.get();
+  var margin = 5;
+  var height = 20;
+  drawLifeBar(
+    ctx,
+    player,
+    margin,
+    Configuration.board.height - height - margin,
+    Configuration.board.width - 2 * margin,
+    height);
+}
+
+var HoneyBadgers = [];
+
+var lastDrawMs = Date.now();
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
@@ -58,7 +89,6 @@ function drawBoard () {
   var canvas = document.getElementById('game-canvas');
 
   if (!canvas) {
-    alert("Unable to find canvas!")
     return; // <canvas> doesn't exist yet, don't do anything
   }
 
@@ -70,16 +100,60 @@ function drawBoard () {
 
   ctx.clearRect(0, 0, Configuration.board.width, Configuration.board.height);
 
-  // draw initial dots
-  _.each(Badger.honeybadgers, function (badger) {
-    if (CurrentPlayer.isUnderAttack()) {
-      drawBadger(ctx, badger);
+  if (CurrentPlayer.isUnderAttack()) {
+    if (HoneyBadgers.length == 0) {
+      var x = Math.round(Math.random()) * (Configuration.board.width - Configuration.honeybadger.width);
+      var y = Math.random() * (Configuration.board.height - Configuration.honeybadger.height);
+      HoneyBadgers = [{x: x, y: y}];
+    } else {
+      var dest = {
+        x: (Configuration.board.width - Configuration.honeybadger.width) / 2,
+        y: Configuration.board.height - Configuration.honeybadger.height
+      };
+
+      _.each(HoneyBadgers, function (badger) {
+        var diff = {
+          x: dest.x - badger.x,
+          y: dest.y - badger.y
+        };
+        var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
+        var timeElapsed = Date.now() - lastDrawMs;
+        var speed = Configuration.honeybadger.speed * timeElapsed;
+        //console.log("x = " + badger.x + " y = " + badger.y + " speed = " + speed + " distance = " + distance);
+
+        if (distance < speed) {
+          badger.x += diff.x;
+          badger.y += diff.y;
+        } else {
+          var moveBy = Math.min(speed, distance);
+          badger.x += diff.x / distance * moveBy;
+          badger.y += diff.y / distance * moveBy;
+        }
+
+      });
     }
+  } else {
+    HoneyBadgers = [];
+  }
+
+  // draw initial dots
+  _.each(HoneyBadgers, function (badger) {
+    drawBadger(ctx, badger);
   });
 
   var underAttack = CurrentPlayer.isUnderAttack()
   if (underAttack) {
     drawAttackWarning(ctx)
+  }
+
+  if (CurrentPlayer.isDead()) {
+    ctx.font = "50px bold arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("All your base are belong to us!",
+    Configuration.board.width / 2,
+    Configuration.board.height / 4);
+  } else {
+    drawLifeBarForCurrentPlayer(ctx);
   }
 
   // writing docs
@@ -102,6 +176,8 @@ function drawBoard () {
   //   ctx.fillStyle = 'rgb(0, 0, 0)';
   //   ctx.fillText(el.name, el.x, el.y);
   // });
+
+  lastDrawMs = Date.now();
 };
 
 Template.canvas.onRendered(function () {
