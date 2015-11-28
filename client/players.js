@@ -24,10 +24,6 @@ Template.players.helpers({
 });
 
 Template.players.events({
-  'click #fuck-you': function () {
-    var id = Session.get('playerId');
-    Players.update(id, {$unset: {badger: ""}});
-  },
   'click #respawn': function () {
     var id = Session.get('playerId');
     Players.update(id, {$set: {

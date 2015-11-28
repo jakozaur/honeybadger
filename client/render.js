@@ -8,16 +8,27 @@ function drawBadger(ctx, badger) {
   ctx.drawImage(img, badger.x, badger.y);
 }
 
-function drawLifeBar(ctx) {
+function drawLifeBar(ctx, player, x, y, width, height) {
+  if (player) {
+    var leftWidth = player.lifePoints * width / 100;
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, width, height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(x, y, leftWidth, height);
+  }
+}
+
+function drawLifeBarForCurrentPlayer(ctx) {
+  var player = CurrentPlayer.get();
   var margin = 5;
   var height = 20;
-  var width = CurrentPlayer.get().lifePoints * (Configuration.board.width - 2 * margin) / 100;
-  var x = margin;
-  var y = Configuration.board.height - margin - height;
-  ctx.fillStyle = "red";
-  ctx.fillRect(x, y, Configuration.board.width - 2 * margin, height);
-  ctx.fillStyle = "green";
-  ctx.fillRect(x, y, width, height);
+  drawLifeBar(
+    ctx,
+    player,
+    margin,
+    Configuration.board.height - height - margin,
+    Configuration.board.width - 2 * margin,
+    height);
 }
 
 var HoneyBadgers = [];
@@ -58,7 +69,6 @@ function drawBoard () {
           y: dest.y - badger.y
         };
         var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
-        console.log("badger " + badger)
         badger.x += diff.x / distance;
         badger.y += diff.y / distance;
       });
@@ -72,7 +82,7 @@ function drawBoard () {
     drawBadger(ctx, badger);
   });
 
-  drawLifeBar(ctx);
+  drawLifeBarForCurrentPlayer(ctx);
 
   // writing docs
   ctx.textAlign = 'center';

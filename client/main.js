@@ -19,14 +19,15 @@ Meteor.startup(function main() {
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
 
-    var isAlive = me.lifePoints > 0;
-
     var updateObject = {$set: {age: Date.now()}, $inc: {}};
     if (badger) {
       updateObject['$inc']['lifePoints'] = -10;
     }
-    if (me.lifePoints > 0) {
+    if (me && me.lifePoints > 0) {
       updateObject['$inc']['aliveAge'] = 1;
+    }
+    if (Object.keys(updateObject['$inc']).length == 0) {
+      delete updateObject['$inc'];
     }
     Players.update(id, updateObject);
 
