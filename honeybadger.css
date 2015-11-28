@@ -5,8 +5,9 @@
 }
 
 #game-canvas {
-  width: 1000px;
-  height: 600px;
+  width: 1024px;
+  height: 729px;
+  background: url('background.jpg')
 }
 
 #new-player, #new-player .overlay {
