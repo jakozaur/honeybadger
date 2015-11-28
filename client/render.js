@@ -5,11 +5,13 @@ function drawBadger(ctx, badger) {
 }
 
 function drawLifeBar(ctx) {
-  var margin = 2;
+  var margin = 5;
   var height = 20;
   var width = CurrentPlayer.get().lifePoints * (Configuration.board.width - 2 * margin) / 100;
   var x = margin;
   var y = Configuration.board.height - margin - height;
+  ctx.fillStyle = "red";
+  ctx.fillRect(x, y, Configuration.board.width - 2 * margin, height);
   ctx.fillStyle = "green";
   ctx.fillRect(x, y, width, height);
 }
