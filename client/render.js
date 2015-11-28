@@ -114,6 +114,7 @@ function drawLifeBarForCurrentPlayer(ctx) {
 
 HoneyBadgers = [];
 RenderBloodSince = 0;
+PlayerTakingDamage = false;
 
 var lastDrawMs = Date.now();
 
@@ -152,7 +153,7 @@ function drawBoard () {
       	} else {
       		var badger_dest_offset = -200; // attack from left side if coming from left
       	}
-      	
+
         var diff = {
           x: dest.x - badger.x + badger_dest_offset,
           y: dest.y - badger.y
@@ -166,7 +167,7 @@ function drawBoard () {
           badger.x += diff.x;
           badger.y += diff.y;
           id = Session.get('playerId');
-          Players.update(id, {$set: {"taking_damage": true}});
+          PlayerTakingDamage = true;
         } else {
           var moveBy = Math.min(speed, distance);
           badger.x += diff.x / distance * moveBy;
