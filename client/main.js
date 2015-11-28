@@ -9,7 +9,7 @@ Meteor.startup(function main() {
   console.log(name);
 
   Meteor.setInterval(function loop() {
-    console.log(Date.now());
+    //console.log(Date.now());
     var id = Session.get('playerId');
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
