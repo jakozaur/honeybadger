@@ -9,7 +9,7 @@ Meteor.startup(function main() {
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
 	var taking_damage = me && me.taking_damage;
-	
+
     var updateObject = {$set: {age: Date.now()}, $inc: {}};
     if (badger && taking_damage) {
 		RenderBloodSince = Date.now();
@@ -17,9 +17,8 @@ Meteor.startup(function main() {
     }
     if (me && me.lifePoints > 0) {
       updateObject['$inc']['aliveAge'] = 1;
-      updateObject['$max'] = {
-        highestAliveAge: me.aliveAge + 1
-      }
+      updateObject['$set']['highestAliveAge'] =
+        Math.max(me.aliveAge + 1, me.highestAliveAge);
     }
     if (Object.keys(updateObject['$inc']).length == 0) {
       delete updateObject['$inc'];

@@ -151,7 +151,7 @@ function drawBoard () {
           badger.x += diff.x;
           badger.y += diff.y;
           id = Session.get('playerId');
-          Players.update(id, {$set: {"taking_damage": true}});          
+          Players.update(id, {$set: {"taking_damage": true}});
         } else {
           var moveBy = Math.min(speed, distance);
           badger.x += diff.x / distance * moveBy;
@@ -171,7 +171,6 @@ function drawBoard () {
     ctx.fillStyle = "#FF0000"
     ctx.fillRect(0, 0, Configuration.board.width, Configuration.board.height);
     ctx.restore();
-    console.log("Blood!")
   }
 
   // draw initial dots
