@@ -3,7 +3,6 @@
 </head>
 
 <body>
-  {{> players}}
   {{> newPlayer}}
   {{> canvas}}
 </body>
@@ -31,7 +30,6 @@
 </template>
 
 <template name="players">
-  <h1>Welcome {{yourName}}!</h1>
   <ul>
     {{#each activePlayers}}
       {{> player}}
@@ -41,9 +39,6 @@
     All your base are belong to us!
     <button id="respawn">Respawn</button>
   {{else}}
-    {{#if areYouUnderAttack}}
-      <h2>Honey Badger is attacking you!</h2>
-    {{/if}}
     <button id="fuck-you">Fuck you, Honey Badger!</button>
   {{/if}}
 </template>

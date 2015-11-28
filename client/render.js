@@ -4,6 +4,53 @@ function drawBadger(ctx, badger) {
   ctx.drawImage(img, badger.x, badger.y)
 }
 
+function drawAttackWarning(ctx) {
+  ctx.fillStyle = 'rgb(0, 0, 0)';
+  ctx.font = 'bold 35px sans-serif';
+  ctx.fillText("ATTACKED!", Configuration.board.width / 2,  100)
+}
+
+function aliveText(player) {
+  if (player.lifePoints > 0) {
+    return "Alive " + player.lifePoints + "/100"
+  } else {
+    return "Dead"
+  }
+}
+
+function howLongAlive(player) {
+    var aliveAge = player.aliveAge;
+    var seconds = aliveAge % 60;
+    seconds = seconds + "";
+    if (seconds.length == 1) {
+      seconds = "0" + seconds;
+    }
+    var mins = Math.floor(aliveAge / 60);
+    return mins + ":" + seconds
+}
+
+function drawPlayersBoard(ctx) {
+
+  ctx.font = 'bold 15px sans-serif';
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
+  ctx.lineWidth="4";
+  ctx.strokeStyle="green";
+  ctx.fillRect(20, 20, 300, 200)
+  ctx.stroke()
+
+  _.each(Players.find().fetch(), function(player, id) {
+    var msg = player.name + " " + aliveText(player) + " " + howLongAlive(player)
+    var xOffset = 110
+    if(player.badger) {
+      msg += " ATTACKED!";
+      xOffset += 45
+    }
+    ctx.fillStyle = 'rgb(255, 255, 255)'
+    ctx.fillText(msg, xOffset, (id + 1) * 30)
+  })
+}
+
 function drawBoard () {
 
   window.requestAnimationFrame(drawBoard);
@@ -30,10 +77,17 @@ function drawBoard () {
     }
   });
 
+  var underAttack = CurrentPlayer.isUnderAttack()
+  if (underAttack) {
+    drawAttackWarning(ctx)
+  }
+
   // writing docs
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = '300 10px serif';
+
+  drawPlayersBoard(ctx)
 
   // draw player
   // _.each(_.pairs(Player), function (pair) {
