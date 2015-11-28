@@ -138,8 +138,14 @@ function drawBoard () {
       };
 
       _.each(HoneyBadgers, function (badger) {
+      	if(badger.x > Configuration.board.height / 2) {
+      		var badger_dest_offset = 0;
+      	} else {
+      		var badger_dest_offset = -200; // attack from left side if coming from left
+      	}
+      	
         var diff = {
-          x: dest.x - badger.x,
+          x: dest.x - badger.x + badger_dest_offset,
           y: dest.y - badger.y
         };
         var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
