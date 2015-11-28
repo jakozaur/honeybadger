@@ -34,20 +34,24 @@
   <h1>Welcome {{yourName}}!</h1>
   <ul>
     {{#each activePlayers}}
-      <li>{{lifePoints}}/100 {{name}}
-        {{#if badger}}
-          is under attack!
-        {{/if}}
-      </li>
-
+      {{> player}}
     {{/each}}
   </ul>
   {{#if youreDead}}
     All your base are belong to us!
+    <button id="respawn">Respawn</button>
   {{else}}
     {{#if areYouUnderAttack}}
       <h2>Honey Badger is attacking you!</h2>
     {{/if}}
     <button id="fuck-you">Fuck you, Honey Badger!</button>
   {{/if}}
+</template>
+
+<template name="player">
+  <li>{{lifePoints}}/100 {{name}} {{howLongAlive}}
+    {{#if badger}}
+      is under attack!
+    {{/if}}
+  </li>
 </template>

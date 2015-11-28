@@ -2,7 +2,12 @@ Meteor.startup(function main() {
   var id = Session.get('playerId');
   if (!id) {
     var name = prompt("Łot ys jor nejm?");
-    id = Players.insert({name: name, age: Date.now(), lifePoints: 100});
+    id = Players.insert({
+      name: name,
+      age: Date.now(),
+      aliveSince: Date.now(),
+      lifePoints: 100
+    });
     Session.set('playerId', id);
   }
 
@@ -18,6 +23,10 @@ Meteor.startup(function main() {
       Players.update(id, {$set: {age: Date.now()}, $inc: {lifePoints: -10}});
     } else {
       Players.update(id, {$set: {age: Date.now()}});
+    }
+
+    if (me && (me.lifePoints <= 0 && !me.deadSince)) {
+      Players.update(id, {$set: {deadSince: Date.now()}});
     }
 
   }, 1000);
