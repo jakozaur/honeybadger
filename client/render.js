@@ -5,11 +5,13 @@ function drawBadger(ctx, badger) {
 }
 
 function drawLifeBar(ctx, player, x, y, width, height) {
-  var leftWidth = player.lifePoints * width / 100;
-  ctx.fillStyle = "red";
-  ctx.fillRect(x, y, width, height);
-  ctx.fillStyle = "green";
-  ctx.fillRect(x, y, leftWidth, height);
+  if (player) {
+    var leftWidth = player.lifePoints * width / 100;
+    ctx.fillStyle = "red";
+    ctx.fillRect(x, y, width, height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(x, y, leftWidth, height);
+  }
 }
 
 function drawLifeBarForCurrentPlayer(ctx) {
@@ -63,7 +65,6 @@ function drawBoard () {
           y: dest.y - badger.y
         };
         var distance = Math.sqrt(diff.x * diff.x + diff.y * diff.y);
-        console.log("badger " + badger)
         badger.x += diff.x / distance;
         badger.y += diff.y / distance;
       });
