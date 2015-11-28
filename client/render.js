@@ -39,8 +39,7 @@ function aliveText(player) {
   }
 }
 
-function howLongAlive(player) {
-    var aliveAge = player.aliveAge;
+function howLongAlive(aliveAge) {
     var seconds = aliveAge % 60;
     seconds = seconds + "";
     if (seconds.length == 1) {
@@ -65,14 +64,15 @@ function drawPlayersBoard(ctx) {
   ctx.fillText("PLAYERS", 120, 20)
 
   ctx.font = 'bold 15px sans-serif';
-  var players = Players.find({}, {sort: [['aliveAge', 'desc']]}).fetch();
+  var players = Players.find({}, {sort: [['highestAliveAge', 'desc']]}).fetch();
   _.each(players, function(player, id) {
     var img = new Image();
     img.src = 'players/' + player.name;
     ctx.drawImage(img, 40, (id + 1) * 40, 40, 40);
     drawLifeBar(ctx, player, 90, (id + 1) * 40, 60, 20);
     ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillText(howLongAlive(player), 120, (id + 1) * 40 + 30);
+    ctx.fillText(howLongAlive(player.aliveAge), 100, (id + 1) * 40 + 30);
+    ctx.fillText(howLongAlive(player.highestAliveAge), 140, (id + 1) * 40 + 30);
     if(player.badger) {
       var headImg = new Image();
       headImg.src = "badger_head.png";
