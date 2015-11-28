@@ -15,7 +15,7 @@ Template.canvas.events({
 	_.each(HoneyBadgers, function(badger) {
 		console.log(badger);
        if ((cursorPos.x > badger.x && cursorPos.x < badger.x + Configuration.honeybadger.width) &&
-               (cursorPos.y > badger.y && cursorPos.y < badger.y + Configuration.honeybadger.height)) {
+               (cursorPos.y > badger.y && cursorPos.y < badger.y + (Configuration.honeybadger.height))) {
                        console.log("Badger defeated!");
                        Players.update(id, {$unset: {badger: ""}});
                } //TODO: delete just the right badger, not all of them
