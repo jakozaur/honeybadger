@@ -81,7 +81,7 @@ function drawPlayersBoard(ctx) {
     ctx.fillStyle = 'rgb(0, 0, 0)';
     ctx.fillText(howLongAlive(player.aliveAge), 100, (id + 1) * 40 + 30);
     ctx.fillText(howLongAlive(player.highestAliveAge), 140, (id + 1) * 40 + 30);
-    if(player.badger) {
+    if (player.badger) {
       var headImg = new Image();
       headImg.src = "badger_head.png";
       ctx.drawImage(headImg, 160, (id + 1) * 40, 40, 40);
