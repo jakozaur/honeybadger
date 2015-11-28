@@ -31,7 +31,7 @@ function drawLifeBarForCurrentPlayer(ctx) {
     height);
 }
 
-var HoneyBadgers = [];
+HoneyBadgers = [];
 
 var lastDrawMs = Date.now();
 
