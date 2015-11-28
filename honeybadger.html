@@ -42,8 +42,12 @@
 
     {{/each}}
   </ul>
-  {{#if areYouUnderAttack}}
-    <h2>Honey Badger is attacking you!</h2>
+  {{#if youreDead}}
+    All your base are belong to us!
+  {{else}}
+    {{#if areYouUnderAttack}}
+      <h2>Honey Badger is attacking you!</h2>
+    {{/if}}
+    <button id="fuck-you">Fuck you, Honey Badger!</button>
   {{/if}}
-  <button id="fuck-you">Fuck you, Honey Badger!</button>
 </template>

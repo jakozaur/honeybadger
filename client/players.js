@@ -13,6 +13,12 @@ Template.players.helpers({
 
   activePlayers: function () {
     return Players.find();
+  },
+
+  youreDead: function() {
+    var id = Session.get('playerId');
+    var me = id && Players.findOne(id);
+    return !me || me.lifePoints <= 0;
   }
 
 });
