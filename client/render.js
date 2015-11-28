@@ -39,12 +39,6 @@ function drawMe(ctx) {
   }
 }
 
-function drawAttackWarning(ctx) {
-  ctx.fillStyle = 'rgb(0, 0, 0)';
-  ctx.font = 'bold 35px sans-serif';
-  ctx.fillText("ATTACKED!", Configuration.board.width / 2,  100)
-}
-
 function aliveText(player) {
   if (player.lifePoints > 0) {
     return "Alive " + player.lifePoints + "/100"
@@ -53,8 +47,7 @@ function aliveText(player) {
   }
 }
 
-function howLongAlive(player) {
-    var aliveAge = player.aliveAge;
+function howLongAlive(aliveAge) {
     var seconds = aliveAge % 60;
     seconds = seconds + "";
     if (seconds.length == 1) {
@@ -79,13 +72,15 @@ function drawPlayersBoard(ctx) {
   ctx.fillText("PLAYERS", 120, 20)
 
   ctx.font = 'bold 15px sans-serif';
-  _.each(Players.find().fetch(), function(player, id) {
+  var players = Players.find({}, {sort: [['highestAliveAge', 'desc']]}).fetch();
+  _.each(players, function(player, id) {
     var img = new Image();
     img.src = 'players/' + player.name;
     ctx.drawImage(img, 40, (id + 1) * 40, 40, 40);
     drawLifeBar(ctx, player, 90, (id + 1) * 40, 60, 20);
     ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillText(howLongAlive(player), 120, (id + 1) * 40 + 30);
+    ctx.fillText(howLongAlive(player.aliveAge), 100, (id + 1) * 40 + 30);
+    ctx.fillText(howLongAlive(player.highestAliveAge), 140, (id + 1) * 40 + 30);
     if(player.badger) {
       var headImg = new Image();
       headImg.src = "badger_head.png";
@@ -117,6 +112,7 @@ function drawLifeBarForCurrentPlayer(ctx) {
 }
 
 HoneyBadgers = [];
+RenderBloodSince = 0;
 
 var lastDrawMs = Date.now();
 
@@ -162,6 +158,8 @@ function drawBoard () {
         if (distance < speed) {
           badger.x += diff.x;
           badger.y += diff.y;
+          id = Session.get('playerId');
+          Players.update(id, {$set: {"taking_damage": true}});
         } else {
           var moveBy = Math.min(speed, distance);
           badger.x += diff.x / distance * moveBy;
@@ -174,15 +172,19 @@ function drawBoard () {
     HoneyBadgers = [];
   }
 
+  var bloodMs = Date.now() - RenderBloodSince;
+  if (bloodMs < Configuration.renderBloodForMs) {
+    ctx.save();
+    ctx.globalAlpha = 1.0 - bloodMs / Configuration.renderBloodForMs;
+    ctx.fillStyle = "#FF0000"
+    ctx.fillRect(0, 0, Configuration.board.width, Configuration.board.height);
+    ctx.restore();
+  }
+
   // draw initial dots
   _.each(HoneyBadgers, function (badger) {
     drawBadger(ctx, badger);
   });
-
-  var underAttack = CurrentPlayer.isUnderAttack()
-  // if (underAttack) {
-  //   drawAttackWarning(ctx)
-  // }
 
   if (CurrentPlayer.isDead()) {
     ctx.font = "50px bold arial";
@@ -203,20 +205,6 @@ function drawBoard () {
 
   drawPlayersBoard(ctx)
 
-  // draw player
-  // _.each(_.pairs(Player), function (pair) {
-  //   var id = pair[0];
-  //   var el = pair[1];
-  //   ctx.fillStyle = Configuration.player.colors[el.color];
-  //   ctx.beginPath();
-  //   var radius = Configuration.player.foodSizeToRadius(el.size);
-  //   ctx.arc(el.x, el.y, radius, 0, Math.PI*2, false);
-  //   ctx.closePath();
-  //   ctx.fill();
-  //   ctx.fillStyle = 'rgb(0, 0, 0)';
-  //   ctx.fillText(el.name, el.x, el.y);
-  // });
-
   lastDrawMs = Date.now();
 };
 
@@ -226,32 +214,4 @@ Template.canvas.onRendered(function () {
   var canvas = document.getElementById('game-canvas');
   canvas.width = Configuration.board.width;
   canvas.height = Configuration.board.height;
-  // var handleCursor = _.throttle(function (event) {
-  //   var ourPlayerId = Session.get('OurPlayerId');
-  //   if (ourPlayerId) {
-  //     var cursorX = event.clientX * Configuration.board.width / $(canvas).width();
-  //     var cursorY = event.clientY * Configuration.board.height / $(canvas).height();
-
-  //     Meteor.call('setPlayerCursor', ourPlayerId, cursorX, cursorY);
-  //   }
-  // }, 1000 / Configuration.player.cursorPerSecond);
-  // canvas.addEventListener('mousemove', handleCursor);
-
-  // var handleTouch = function (event) {
-  //   event.preventDefault();
-  //   event.clientX = 0;
-  //   event.clientY = 0;
-  //   for (var i = 0; i < event.touches.length; i++) {
-  //     event.clientX += event.touches[i].clientX;
-  //     event.clientY += event.touches[i].clientY;
-  //   }
-
-  //   event.clientX /= event.touches.length;
-  //   event.clientY /= event.touches.length;
-
-  //   handleCursor(event);
-  // }
-  // canvas.addEventListener("touchstart", handleTouch);
-  // canvas.addEventListener("touchmove", handleTouch);
-
 });

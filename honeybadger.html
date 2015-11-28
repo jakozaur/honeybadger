@@ -2,10 +2,12 @@
   <title>Honey Badger The Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 
 <body>
   {{> canvas}}
+  {{> players}}
 </body>
 
 <template name="canvas">
@@ -31,17 +33,15 @@
 </template>
 
 <template name="players">
-  <ul>
-    {{#each activePlayers}}
-      {{> player}}
-    {{/each}}
-  </ul>
+  {{#if areYouUnderAttack}}
+    <audio autoplay="true" loop="true">
+      <source src="attack-sound.mp3" />
+    </audio>
+  {{/if}}
 </template>
 
 <template name="player">
-  <li>{{aliveText}} {{name}} {{howLongAlive}}
-    {{#if badger}}
-      is under attack!
-    {{/if}}
-  </li>
+  {{#if badger}}
+    is under attack!
+  {{/if}}
 </template>

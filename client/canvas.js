@@ -1,25 +1,26 @@
 Template.canvas.events({
   "click #game-canvas": function(event) {
+    var canvas = document.getElementById('game-canvas');
+    var cursorPos = getCursorPosition(canvas,event);
     if (CurrentPlayer.isDead()) {
       var id = Session.get('playerId');
-      Players.update(id, {$set: {
-        aliveAge: 0,
-        lifePoints: 100}
-      });
+      if (cursorPos.y > Configuration.board.height - 100 &&
+        cursorPos.x > Configuration.board.width / 2 - 50 &&
+        cursorPos.x < Configuration.board.width / 2 + 50) {
+        CurrentPlayer.create();
+      }
     } else {
       var id = Session.get('playerId');
       console.log(event);
-      var canvas = document.getElementById('game-canvas');
-      var cursorPos = getCursorPosition(canvas,event);
       console.log(cursorPos);
-	_.each(HoneyBadgers, function(badger) {
-		console.log(badger);
-       if ((cursorPos.x > badger.x && cursorPos.x < badger.x + Configuration.honeybadger.width) &&
-               (cursorPos.y > badger.y && cursorPos.y < badger.y + (Configuration.honeybadger.height))) {
-                       console.log("Badger defeated!");
-                       Players.update(id, {$unset: {badger: ""}});
-               } //TODO: delete just the right badger, not all of them
-      });
+    	_.each(HoneyBadgers, function(badger) {
+    		console.log(badger);
+           if ((cursorPos.x > badger.x && cursorPos.x < badger.x + Configuration.honeybadger.width) &&
+                   (cursorPos.y > badger.y && cursorPos.y < badger.y + Configuration.honeybadger.height)) {
+                           console.log("Badger defeated!");
+                           Players.update(id, {$unset: {badger: ""}});
+                   } //TODO: delete just the right badger, not all of them
+        });
     }
   }
 });
