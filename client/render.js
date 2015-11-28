@@ -154,6 +154,8 @@ function drawBoard () {
         if (distance < speed) {
           badger.x += diff.x;
           badger.y += diff.y;
+          id = Session.get('playerId');
+          Players.update(id, {$set: {"taking_damage": true}});          
         } else {
           var moveBy = Math.min(speed, distance);
           badger.x += diff.x / distance * moveBy;

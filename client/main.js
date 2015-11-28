@@ -18,9 +18,10 @@ Meteor.startup(function main() {
     var id = Session.get('playerId');
     var me = id && Players.findOne(id);
     var badger = me && me.badger;
-
+	var taking_damage = me && me.taking_damage;
+	
     var updateObject = {$set: {age: Date.now()}, $inc: {}};
-    if (badger) {
+    if (badger && taking_damage) {
       updateObject['$inc']['lifePoints'] = -10;
     }
     if (me && me.lifePoints > 0) {
