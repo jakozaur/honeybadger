@@ -34,10 +34,15 @@ Meteor.startup(function main() {
     });
 
     // Add new player under attack
-    var badgerId = Math.floor(Math.random() * players.length);
-    var playerUnderAttack = players[badgerId];
-    console.log("player " + playerUnderAttack.name + " is under attack id " +
-      playerUnderAttack._id + " badgerId " + badgerId );
-    Players.update(playerUnderAttack._id, {$set: {badger: "attack"}});
+    var alivePlayers = _.filter(players, function (player) {
+      return player.lifePoints > 0;
+    });
+    if (alivePlayers.length > 0) {
+      var badgerId = Math.floor(Math.random() * alivePlayers.length);
+      var playerUnderAttack = alivePlayers[badgerId];
+      console.log("player " + playerUnderAttack.name + " is under attack id " +
+        playerUnderAttack._id + " badgerId " + badgerId );
+      Players.update(playerUnderAttack._id, {$set: {badger: "attack"}});
+    }
   }, 5000);
 });
