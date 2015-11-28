@@ -23,6 +23,7 @@ CurrentPlayer = {
         name: name,
         age: Date.now(),
         aliveAge: 0,
+        highestAliveAge: 0,
         lifePoints: 100
       });
       Session.set('playerId', id);

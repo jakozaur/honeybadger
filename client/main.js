@@ -17,6 +17,9 @@ Meteor.startup(function main() {
     }
     if (me && me.lifePoints > 0) {
       updateObject['$inc']['aliveAge'] = 1;
+      updateObject['$max'] = {
+        highestAliveAge: me.aliveAge + 1
+      }
     }
     if (Object.keys(updateObject['$inc']).length == 0) {
       delete updateObject['$inc'];
