@@ -3,6 +3,7 @@
 </head>
 
 <body>
+  {{> players}}
   {{> canvas}}
   {{> newPlayer}}
 </body>
@@ -27,4 +28,8 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+<template name="players">
+  <h1>Welcome {{yourName}}!</h1>
 </template>
