@@ -80,6 +80,7 @@ function drawPlayersBoard(ctx) {
     drawLifeBar(ctx, player, 90, (id + 1) * 40, 60, 20);
     ctx.fillStyle = 'rgb(0, 0, 0)';
     ctx.fillText(howLongAlive(player.aliveAge), 100, (id + 1) * 40 + 30);
+    ctx.fillStyle = 'rgb(255, 204, 0)';
     ctx.fillText(howLongAlive(player.highestAliveAge), 140, (id + 1) * 40 + 30);
     if (player.badger) {
       var headImg = new Image();
