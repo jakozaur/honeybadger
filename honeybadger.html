@@ -3,8 +3,6 @@
 </head>
 
 <body>
-  {{> players}}
-  {{> newPlayer}}
   {{> canvas}}
 </body>
 
@@ -36,12 +34,6 @@
       {{> player}}
     {{/each}}
   </ul>
-  {{#if youreDead}}
-  {{else}}
-    {{#if areYouUnderAttack}}
-      <h2>Honey Badger is attacking you!</h2>
-    {{/if}}
-  {{/if}}
 </template>
 
 <template name="player">

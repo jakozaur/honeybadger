@@ -1,7 +1,7 @@
 Meteor.startup(function main() {
   var id = Session.get('playerId');
   if (!id) {
-    var name = prompt("Łot ys jor nejm?");
+    var name = "" + (Math.floor(Math.random() * 6) + 1) + ".png";
     id = Players.insert({
       name: name,
       age: Date.now(),
